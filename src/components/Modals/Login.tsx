@@ -1,7 +1,7 @@
 import { authModalState } from '@/atoms/authModalAtom';
 import { auth } from '@/firebase/firebase';
-import { Router, useRouter } from 'next/router';
-import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useSetRecoilState } from 'recoil';
 
@@ -32,6 +32,10 @@ const Login: React.FC<LoginProps> = () => {
         }
     }
 
+    useEffect(() => {
+        if (error) alert(error.message);
+    }, [error]);
+
     return <form className="space-y-6 px-6 pb-4" onSubmit={handleLogin}>
         <h3 className="text-xl font-medium text-white">Sign in to LeetClone</h3>
         <div>
@@ -55,7 +59,7 @@ const Login: React.FC<LoginProps> = () => {
         <button type='submit' className='w-full text-white focus:ring-blue-300 font-medium rounded-lg
             text-sm px-5 py-2.5 text-center bg-brand-orange hover:bg-brand-orange-s
         '>
-            Login
+            {loading ? "Loading..." : "Log In"}
         </button>
         <button className='flex w-full justify-end' onClick={() => handleClick('forgotPassword')}>
             <a href='#' className='text-sm block text-brand-orange hover:underline w-full text-right'>
